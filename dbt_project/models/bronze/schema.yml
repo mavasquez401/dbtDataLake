@@ -1,0 +1,110 @@
+version: 2
+
+sources:
+  - name: stage
+    database: DATA_LAKE
+    schema: STAGE
+    description: Data Vault 2.0 stage layer
+    tables:
+      - name: hub_customer
+        description: Customer hub with business keys
+      - name: sat_customer
+        description: Customer satellite with attributes
+      - name: hub_account
+        description: Account hub with business keys
+      - name: sat_account
+        description: Account satellite with attributes
+      - name: hub_transaction
+        description: Transaction hub with business keys
+      - name: sat_transaction
+        description: Transaction satellite with attributes
+      - name: hub_order
+        description: Order hub with business keys
+      - name: sat_order
+        description: Order satellite with attributes
+      - name: hub_product
+        description: Product hub with business keys
+      - name: sat_product
+        description: Product satellite with attributes
+      - name: hub_interaction
+        description: Interaction hub with business keys
+      - name: sat_interaction
+        description: Interaction satellite with attributes
+      - name: hub_opportunity
+        description: Opportunity hub with business keys
+      - name: sat_opportunity
+        description: Opportunity satellite with attributes
+
+models:
+  - name: bronze_customers
+    description: Bronze layer customer data
+    columns:
+      - name: customer_hk
+        description: Customer hash key
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Customer business key
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: Customer email address
+        tests:
+          - not_null
+
+  - name: bronze_accounts
+    description: Bronze layer account data
+    columns:
+      - name: account_hk
+        description: Account hash key
+        tests:
+          - unique
+          - not_null
+      - name: account_id
+        description: Account business key
+        tests:
+          - unique
+          - not_null
+      - name: balance
+        description: Account balance
+        tests:
+          - not_null
+
+  - name: bronze_transactions
+    description: Bronze layer transaction data
+    columns:
+      - name: transaction_hk
+        description: Transaction hash key
+        tests:
+          - unique
+          - not_null
+      - name: transaction_id
+        description: Transaction business key
+        tests:
+          - unique
+          - not_null
+      - name: amount
+        description: Transaction amount
+        tests:
+          - not_null
+
+  - name: bronze_orders
+    description: Bronze layer order data
+    columns:
+      - name: order_hk
+        description: Order hash key
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: Order business key
+        tests:
+          - unique
+          - not_null
+      - name: order_total
+        description: Order total amount
+        tests:
+          - not_null
+

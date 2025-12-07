@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: gold_customer_summary
+    description: Comprehensive customer summary with order metrics and segmentation
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - unique
+          - not_null
+      - name: total_orders
+        description: Total number of orders placed by customer
+      - name: lifetime_value
+        description: Customer lifetime value
+      - name: customer_lifecycle_stage
+        description: Customer lifecycle segmentation
+        tests:
+          - accepted_values:
+              values: ['PROSPECT', 'NEW_CUSTOMER', 'REGULAR_CUSTOMER', 'LOYAL_CUSTOMER']
+      - name: value_tier
+        description: Customer value tier
+        tests:
+          - accepted_values:
+              values: ['HIGH_VALUE', 'MEDIUM_VALUE', 'LOW_VALUE', 'MINIMAL_VALUE']
+
+  - name: gold_transaction_summary
+    description: Transaction summary aggregated by account
+    columns:
+      - name: account_id
+        description: Unique account identifier
+        tests:
+          - unique
+          - not_null
+      - name: total_transactions
+        description: Total number of transactions
+      - name: total_transaction_amount
+        description: Sum of all transaction amounts
+      - name: is_active_last_30_days
+        description: Flag indicating activity in last 30 days
+      - name: is_dormant
+        description: Flag indicating dormant account (no activity in 90+ days)
+
+  - name: gold_order_metrics
+    description: Order metrics aggregated by date
+    columns:
+      - name: order_year
+        description: Order year
+        tests:
+          - not_null
+      - name: order_month
+        description: Order month
+        tests:
+          - not_null
+      - name: total_orders
+        description: Total number of orders
+      - name: fulfillment_rate_pct
+        description: Percentage of orders delivered
+      - name: cancellation_rate_pct
+        description: Percentage of orders cancelled
+
+  - name: gold_cross_domain_analytics
+    description: Cross-domain analytics combining finance and CRM data
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - unique
+          - not_null
+      - name: total_accounts
+        description: Number of accounts owned by customer
+      - name: customer_value_score
+        description: Composite customer value score
+      - name: engagement_level
+        description: Customer engagement level
+        tests:
+          - accepted_values:
+              values: ['HIGHLY_ENGAGED', 'ENGAGED', 'MODERATELY_ENGAGED', 'LOW_ENGAGEMENT']
+      - name: churn_risk
+        description: Customer churn risk indicator
+        tests:
+          - accepted_values:
+              values: ['HIGH_RISK', 'MEDIUM_RISK', 'LOW_RISK']
+

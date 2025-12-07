@@ -1,0 +1,31 @@
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+addopts = "-v --cov=scripts --cov-report=html --cov-report=term"
+
+[tool.sqlfluff.core]
+dialect = "snowflake"
+templater = "dbt"
+max_line_length = 100
+
+[tool.sqlfluff.indentation]
+indent_unit = "space"
+tab_space_size = 4
+
+[project]
+name = "institutional-data-lake"
+version = "1.0.0"
+description = "Institutional Client Data Lake with Governance Platform"
+requires-python = ">=3.11"
+

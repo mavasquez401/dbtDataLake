@@ -1,0 +1,99 @@
+name: Generate and Upload Sample Data
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run weekly on Sundays at 3 AM UTC
+    - cron: '0 3 * * 0'
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  generate-data:
+    name: Generate Sample Data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pandas pyarrow Faker
+
+      - name: Generate sample data
+        run: python scripts/generate_sample_data.py
+
+      - name: Upload sample data artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: sample-data
+          path: sample_data/
+          retention-days: 7
+
+  upload-to-s3:
+    name: Upload Data to S3
+    runs-on: ubuntu-latest
+    needs: generate-data
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Download sample data
+        uses: actions/download-artifact@v3
+        with:
+          name: sample-data
+          path: sample_data/
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install boto3 python-dotenv
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Upload to S3
+        env:
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+        run: python scripts/upload_to_s3.py
+
+  trigger-glue-crawlers:
+    name: Trigger Glue Crawlers
+    runs-on: ubuntu-latest
+    needs: upload-to-s3
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Start Finance Crawler
+        run: |
+          aws glue start-crawler --name institutional-data-lake-finance-crawler || true
+
+      - name: Start Operations Crawler
+        run: |
+          aws glue start-crawler --name institutional-data-lake-operations-crawler || true
+
+      - name: Start CRM Crawler
+        run: |
+          aws glue start-crawler --name institutional-data-lake-crm-crawler || true
+

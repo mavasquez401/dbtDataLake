@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: silver_customers
+    description: Cleansed and conformed customer data
+    columns:
+      - name: customer_hk
+        description: Customer hash key
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Customer business key
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: Standardized email address
+        tests:
+          - not_null
+      - name: full_name
+        description: Concatenated full name
+      - name: age
+        description: Calculated customer age
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 18
+              max_value: 120
+      - name: customer_status_clean
+        description: Standardized customer status
+        tests:
+          - accepted_values:
+              values: ['ACTIVE', 'INACTIVE', 'CHURNED', 'UNKNOWN']
+
+  - name: silver_transactions
+    description: Cleansed and conformed transaction data
+    columns:
+      - name: transaction_hk
+        description: Transaction hash key
+        tests:
+          - unique
+          - not_null
+      - name: transaction_id
+        description: Transaction business key
+        tests:
+          - unique
+          - not_null
+      - name: amount
+        description: Transaction amount (positive)
+        tests:
+          - not_null
+      - name: transaction_date
+        description: Transaction timestamp
+        tests:
+          - not_null
+      - name: status_clean
+        description: Standardized transaction status
+        tests:
+          - accepted_values:
+              values: ['COMPLETED', 'PENDING', 'FAILED', 'UNKNOWN']
+
+  - name: silver_orders
+    description: Cleansed and conformed order data
+    columns:
+      - name: order_hk
+        description: Order hash key
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: Order business key
+        tests:
+          - unique
+          - not_null
+      - name: order_total
+        description: Order total amount (non-negative)
+        tests:
+          - not_null
+      - name: order_status_clean
+        description: Standardized order status
+        tests:
+          - accepted_values:
+              values: ['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'UNKNOWN']
+      - name: priority_clean
+        description: Standardized priority level
+        tests:
+          - accepted_values:
+              values: ['LOW', 'MEDIUM', 'HIGH', 'URGENT']
+

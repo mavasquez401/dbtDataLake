@@ -1,0 +1,17 @@
+# Code Owners for Data Lake Project
+
+# Default owners for everything in the repo
+* @data-engineering-team
+
+# dbt models require data engineer approval
+/dbt_project/models/ @data-engineering-team @analytics-team
+
+# Terraform changes require infrastructure team approval
+/terraform/ @infrastructure-team @data-engineering-team
+
+# Data quality configurations require data quality team approval
+/data_quality/ @data-quality-team @data-engineering-team
+
+# CI/CD pipeline changes require DevOps approval
+/.github/workflows/ @devops-team @data-engineering-team
+

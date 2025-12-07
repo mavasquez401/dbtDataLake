@@ -1,0 +1,26 @@
+{
+  "Name": "institutional-data-lake-operations-crawler",
+  "Role": "arn:aws:iam::ACCOUNT_ID:role/institutional-data-lake-glue-crawler-role",
+  "DatabaseName": "institutional_data_lake_catalog",
+  "Description": "Crawler for operations domain data",
+  "Targets": {
+    "S3Targets": [
+      {
+        "Path": "s3://institutional-data-lake/operations/"
+      }
+    ]
+  },
+  "SchemaChangePolicy": {
+    "UpdateBehavior": "UPDATE_IN_DATABASE",
+    "DeleteBehavior": "LOG"
+  },
+  "Configuration": "{\"Version\":1.0,\"Grouping\":{\"TableGroupingPolicy\":\"CombineCompatibleSchemas\"},\"CrawlerOutput\":{\"Partitions\":{\"AddOrUpdateBehavior\":\"InheritFromTable\"}}}",
+  "Schedule": "cron(0 2 * * ? *)",
+  "Tags": {
+    "Project": "Institutional Data Lake",
+    "ManagedBy": "Terraform",
+    "Environment": "dev",
+    "Domain": "operations"
+  }
+}
+
