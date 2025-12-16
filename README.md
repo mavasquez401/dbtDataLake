@@ -247,6 +247,55 @@ make quality
 python scripts/run_data_quality.py
 ```
 
+### Testing
+
+The project includes comprehensive unit and integration tests using pytest.
+
+#### Run all tests
+
+```bash
+# Run all tests with coverage
+make test
+
+# Or directly with pytest
+pytest
+
+# Run with verbose output
+pytest -v
+
+# Run with coverage report
+pytest --cov=scripts --cov-report=html
+```
+
+#### Run specific test files
+
+```bash
+# Test data generation
+pytest tests/test_generate_sample_data.py
+
+# Run only unit tests
+pytest -m unit
+
+# Run only integration tests
+pytest -m integration
+```
+
+#### Test Structure
+
+```
+tests/
+├── __init__.py              # Test package initialization
+├── conftest.py              # Shared fixtures and configuration
+└── test_generate_sample_data.py  # Data generation tests
+```
+
+**Test Coverage:**
+- Data generation functions (finance, operations, CRM)
+- Data quality validation
+- Configuration and constants
+- File I/O operations
+- Mock testing for external dependencies
+
 ## CI/CD Pipeline
 
 The project includes comprehensive GitHub Actions workflows:
@@ -389,12 +438,14 @@ ORDER BY order_year DESC, order_month DESC;
 
 1. **Separation of Concerns**: Clear layers (storage, catalog, warehouse, transformation)
 2. **Data Modeling**: Enterprise-grade Data Vault 2.0 patterns
-3. **Testing**: Comprehensive unit and integration tests
-4. **Documentation**: Auto-generated docs with dbt
+3. **Testing**: Comprehensive unit and integration tests with pytest
+4. **Documentation**: Auto-generated docs with dbt and inline code comments
 5. **Version Control**: All code and configuration in Git
-6. **Automation**: CI/CD for continuous delivery
-7. **Monitoring**: Data quality metrics and validation
+6. **Automation**: CI/CD for continuous delivery with GitHub Actions
+7. **Monitoring**: Data quality metrics and validation with Great Expectations
 8. **Security**: IAM roles, encryption, access controls
+9. **Code Quality**: Linting with flake8, black, isort, and sqlfluff
+10. **Reproducibility**: Faker seed for consistent test data generation
 
 ## Performance Optimization
 

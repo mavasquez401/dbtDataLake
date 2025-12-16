@@ -66,3 +66,10 @@ sample_data/*.parquet
 reports/
 *.html
 
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+.tox/
+
