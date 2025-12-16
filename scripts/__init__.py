@@ -1,2 +1,1 @@
-# Scripts package for data lake utilities
-
+"""Scripts package for data lake utilities."""

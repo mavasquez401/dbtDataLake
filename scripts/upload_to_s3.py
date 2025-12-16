@@ -65,7 +65,8 @@ def create_bucket(s3_client, bucket_name, region):
             s3_client.create_bucket(Bucket=bucket_name)
         else:
             s3_client.create_bucket(
-                Bucket=bucket_name, CreateBucketConfiguration={"LocationConstraint": region}
+                Bucket=bucket_name,
+                CreateBucketConfiguration={"LocationConstraint": region},
             )
         print(f"✓ Created bucket: {bucket_name}")
         return True

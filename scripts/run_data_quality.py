@@ -49,7 +49,9 @@ def create_bronze_expectations(context):
 
     # Email validation
     validator.expect_column_values_to_not_be_null("email")
-    validator.expect_column_values_to_match_regex("email", r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+    validator.expect_column_values_to_match_regex(
+        "email", r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    )
 
     # Status validation
     validator.expect_column_values_to_be_in_set(
@@ -247,7 +249,10 @@ def main():
         print("✓ Great Expectations context initialized")
     except Exception as e:
         print(f"✗ Error initializing Great Expectations: {e}")
-        print("Note: This is a demo configuration. In production, run 'great_expectations init' first.")
+        print(
+            "Note: This is a demo configuration. "
+            "In production, run 'great_expectations init' first."
+        )
         return
 
     print()
@@ -271,7 +276,9 @@ def main():
     generate_report(results)
 
     print("\nData quality validation complete!")
-    print(f"Documentation available at: {GE_DIR}/uncommitted/data_docs/local_site/index.html")
+    print(
+        f"Documentation available at: {GE_DIR}/uncommitted/data_docs/local_site/index.html"
+    )
 
 
 if __name__ == "__main__":
