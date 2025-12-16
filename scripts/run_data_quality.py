@@ -276,11 +276,8 @@ def main():
     generate_report(results)
 
     print("\nData quality validation complete!")
-    print(
-        f"Documentation available at: {GE_DIR}/uncommitted/data_docs/local_site/index.html"
-    )
+    print(f"Documentation available at: {GE_DIR}/uncommitted/data_docs/local_site/index.html")
 
 
 if __name__ == "__main__":
     main()
-

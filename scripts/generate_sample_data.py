@@ -39,19 +39,13 @@ def generate_finance_data():
             "account_type": fake.random_element(
                 elements=("CHECKING", "SAVINGS", "INVESTMENT", "CREDIT")
             ),
-            "account_status": fake.random_element(
-                elements=("ACTIVE", "CLOSED", "SUSPENDED")
-            ),
+            "account_status": fake.random_element(elements=("ACTIVE", "CLOSED", "SUSPENDED")),
             "balance": round(fake.random.uniform(100, 100000), 2),
             "currency": "USD",
             "open_date": fake.date_between(start_date=START_DATE, end_date=END_DATE),
             "customer_id": f"CUST{fake.random_int(min=1, max=NUM_CUSTOMERS):06d}",
-            "created_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
-            "updated_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
+            "created_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
+            "updated_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
         }
         accounts.append(account)
 
@@ -71,13 +65,9 @@ def generate_finance_data():
             ),
             "amount": round(fake.random.uniform(10, 5000), 2),
             "currency": "USD",
-            "transaction_date": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
+            "transaction_date": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
             "description": fake.sentence(nb_words=6),
-            "merchant": fake.company()
-            if fake.boolean(chance_of_getting_true=70)
-            else None,
+            "merchant": fake.company() if fake.boolean(chance_of_getting_true=70) else None,
             "category": fake.random_element(
                 elements=(
                     "RETAIL",
@@ -89,17 +79,13 @@ def generate_finance_data():
                 )
             ),
             "status": fake.random_element(elements=("COMPLETED", "PENDING", "FAILED")),
-            "created_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
+            "created_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
         }
         transactions.append(transaction)
 
     transactions_df = pd.DataFrame(transactions)
     transactions_df.to_csv(SAMPLE_DATA_DIR / "finance_transactions.csv", index=False)
-    transactions_df.to_parquet(
-        SAMPLE_DATA_DIR / "finance_transactions.parquet", index=False
-    )
+    transactions_df.to_parquet(SAMPLE_DATA_DIR / "finance_transactions.parquet", index=False)
     print(f"  ✓ Generated {len(transactions_df)} transactions")
 
     # Generate Ledger Entries
@@ -154,9 +140,7 @@ def generate_operations_data():
         order = {
             "order_id": f"ORD{i+1:08d}",
             "customer_id": f"CUST{fake.random_int(min=1, max=NUM_CUSTOMERS):06d}",
-            "order_date": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
+            "order_date": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
             "order_status": fake.random_element(
                 elements=(
                     "PENDING",
@@ -173,15 +157,9 @@ def generate_operations_data():
             ),
             "shipping_address": fake.address().replace("\n", ", "),
             "billing_address": fake.address().replace("\n", ", "),
-            "priority": fake.random_element(
-                elements=("LOW", "MEDIUM", "HIGH", "URGENT")
-            ),
-            "created_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
-            "updated_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
+            "priority": fake.random_element(elements=("LOW", "MEDIUM", "HIGH", "URGENT")),
+            "created_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
+            "updated_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
         }
         orders.append(order)
 
@@ -203,26 +181,20 @@ def generate_operations_data():
             "tracking_number": fake.bothify(text="??########??"),
             "ship_date": ship_date,
             "estimated_delivery": delivery_date,
-            "actual_delivery": delivery_date
-            if fake.boolean(chance_of_getting_true=80)
-            else None,
+            "actual_delivery": delivery_date if fake.boolean(chance_of_getting_true=80) else None,
             "shipment_status": fake.random_element(
                 elements=("IN_TRANSIT", "DELIVERED", "DELAYED", "RETURNED")
             ),
             "weight_kg": round(fake.random.uniform(0.5, 50), 2),
             "shipping_cost": round(fake.random.uniform(5, 100), 2),
             "created_at": ship_date,
-            "updated_at": fake.date_time_between(
-                start_date=ship_date, end_date=END_DATE
-            ),
+            "updated_at": fake.date_time_between(start_date=ship_date, end_date=END_DATE),
         }
         shipments.append(shipment)
 
     shipments_df = pd.DataFrame(shipments)
     shipments_df.to_csv(SAMPLE_DATA_DIR / "operations_shipments.csv", index=False)
-    shipments_df.to_parquet(
-        SAMPLE_DATA_DIR / "operations_shipments.parquet", index=False
-    )
+    shipments_df.to_parquet(SAMPLE_DATA_DIR / "operations_shipments.parquet", index=False)
     print(f"  ✓ Generated {len(shipments_df)} shipments")
 
     # Generate Inventory
@@ -250,23 +222,15 @@ def generate_operations_data():
                 f"WH-{fake.random_element(elements=('A', 'B', 'C'))}"
                 f"-{fake.random_int(min=1, max=99):02d}"
             ),
-            "last_restock_date": fake.date_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
-            "created_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
-            "updated_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
+            "last_restock_date": fake.date_between(start_date=START_DATE, end_date=END_DATE),
+            "created_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
+            "updated_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
         }
         inventory.append(inventory_item)
 
     inventory_df = pd.DataFrame(inventory)
     inventory_df.to_csv(SAMPLE_DATA_DIR / "operations_inventory.csv", index=False)
-    inventory_df.to_parquet(
-        SAMPLE_DATA_DIR / "operations_inventory.parquet", index=False
-    )
+    inventory_df.to_parquet(SAMPLE_DATA_DIR / "operations_inventory.parquet", index=False)
     print(f"  ✓ Generated {len(inventory_df)} inventory items")
 
 
@@ -295,19 +259,11 @@ def generate_crm_data():
             "state": fake.state_abbr(),
             "zip_code": fake.zipcode(),
             "country": "USA",
-            "registration_date": fake.date_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
-            "customer_status": fake.random_element(
-                elements=("ACTIVE", "INACTIVE", "CHURNED")
-            ),
+            "registration_date": fake.date_between(start_date=START_DATE, end_date=END_DATE),
+            "customer_status": fake.random_element(elements=("ACTIVE", "INACTIVE", "CHURNED")),
             "lifetime_value": round(fake.random.uniform(1000, 100000), 2),
-            "created_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
-            "updated_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
+            "created_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
+            "updated_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
         }
         customers.append(customer)
 
@@ -325,30 +281,22 @@ def generate_crm_data():
             "interaction_type": fake.random_element(
                 elements=("CALL", "EMAIL", "CHAT", "MEETING", "SOCIAL_MEDIA")
             ),
-            "interaction_date": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
+            "interaction_date": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
             "duration_minutes": fake.random_int(min=1, max=120),
             "subject": fake.sentence(nb_words=5),
             "notes": fake.text(max_nb_chars=200),
-            "sentiment": fake.random_element(
-                elements=("POSITIVE", "NEUTRAL", "NEGATIVE")
-            ),
+            "sentiment": fake.random_element(elements=("POSITIVE", "NEUTRAL", "NEGATIVE")),
             "outcome": fake.random_element(
                 elements=("RESOLVED", "FOLLOW_UP_NEEDED", "ESCALATED", "CLOSED")
             ),
             "assigned_to": fake.name(),
-            "created_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
+            "created_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
         }
         interactions.append(interaction)
 
     interactions_df = pd.DataFrame(interactions)
     interactions_df.to_csv(SAMPLE_DATA_DIR / "crm_interactions.csv", index=False)
-    interactions_df.to_parquet(
-        SAMPLE_DATA_DIR / "crm_interactions.parquet", index=False
-    )
+    interactions_df.to_parquet(SAMPLE_DATA_DIR / "crm_interactions.parquet", index=False)
     print(f"  ✓ Generated {len(interactions_df)} interactions")
 
     # Generate Opportunities
@@ -373,32 +321,22 @@ def generate_crm_data():
             ),
             "probability": fake.random_int(min=0, max=100),
             "amount": round(fake.random.uniform(5000, 500000), 2),
-            "expected_close_date": fake.date_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
-            "actual_close_date": fake.date_between(
-                start_date=START_DATE, end_date=END_DATE
-            )
+            "expected_close_date": fake.date_between(start_date=START_DATE, end_date=END_DATE),
+            "actual_close_date": fake.date_between(start_date=START_DATE, end_date=END_DATE)
             if fake.boolean(chance_of_getting_true=50)
             else None,
             "lead_source": fake.random_element(
                 elements=("WEBSITE", "REFERRAL", "COLD_CALL", "TRADE_SHOW", "PARTNER")
             ),
             "assigned_to": fake.name(),
-            "created_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
-            "updated_at": fake.date_time_between(
-                start_date=START_DATE, end_date=END_DATE
-            ),
+            "created_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
+            "updated_at": fake.date_time_between(start_date=START_DATE, end_date=END_DATE),
         }
         opportunities.append(opportunity)
 
     opportunities_df = pd.DataFrame(opportunities)
     opportunities_df.to_csv(SAMPLE_DATA_DIR / "crm_opportunities.csv", index=False)
-    opportunities_df.to_parquet(
-        SAMPLE_DATA_DIR / "crm_opportunities.parquet", index=False
-    )
+    opportunities_df.to_parquet(SAMPLE_DATA_DIR / "crm_opportunities.parquet", index=False)
     print(f"  ✓ Generated {len(opportunities_df)} opportunities")
 
 
@@ -427,4 +365,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
