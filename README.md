@@ -5,6 +5,7 @@ A production-ready data lake platform showcasing enterprise data engineering bes
 ## Overview
 
 This project implements a modern data lake architecture for institutional clients, featuring:
+
 - **Data Vault 2.0** modeling for enterprise data warehousing
 - **Medallion Architecture** (Bronze/Silver/Gold) for data quality layers
 - **AWS S3 + Glue** for scalable data lake storage and cataloging
@@ -34,16 +35,16 @@ Business Intelligence & Analytics
 
 ### Technology Stack
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| Storage | AWS S3 | Data lake storage |
-| Catalog | AWS Glue | Metadata management |
-| Warehouse | Snowflake | Cloud data warehouse |
-| Transformation | dbt | SQL-based transformations |
-| Data Quality | Great Expectations | Validation & testing |
-| Infrastructure | Terraform | IaC provisioning |
-| CI/CD | GitHub Actions | Automated deployment |
-| Modeling | Data Vault 2.0 | Enterprise data modeling |
+| Layer          | Technology         | Purpose                   |
+| -------------- | ------------------ | ------------------------- |
+| Storage        | AWS S3             | Data lake storage         |
+| Catalog        | AWS Glue           | Metadata management       |
+| Warehouse      | Snowflake          | Cloud data warehouse      |
+| Transformation | dbt                | SQL-based transformations |
+| Data Quality   | Great Expectations | Validation & testing      |
+| Infrastructure | Terraform          | IaC provisioning          |
+| CI/CD          | GitHub Actions     | Automated deployment      |
+| Modeling       | Data Vault 2.0     | Enterprise data modeling  |
 
 ## Project Structure
 
@@ -86,6 +87,7 @@ dbtDataLake/
 ### Data Vault 2.0 Components
 
 **Hubs** (Business Keys)
+
 - `hub_customer` - Customer identifiers
 - `hub_account` - Account identifiers
 - `hub_transaction` - Transaction identifiers
@@ -95,6 +97,7 @@ dbtDataLake/
 - `hub_opportunity` - Opportunity identifiers
 
 **Links** (Relationships)
+
 - `link_customer_account` - Customer-Account relationships
 - `link_account_transaction` - Account-Transaction relationships
 - `link_customer_order` - Customer-Order relationships
@@ -103,6 +106,7 @@ dbtDataLake/
 - `link_customer_opportunity` - Customer-Opportunity relationships
 
 **Satellites** (Attributes with History)
+
 - `sat_customer` - Customer descriptive attributes
 - `sat_account` - Account descriptive attributes
 - `sat_transaction` - Transaction descriptive attributes
@@ -114,17 +118,20 @@ dbtDataLake/
 ### Medallion Architecture
 
 **Bronze Layer** - Raw data ingestion from Data Vault
+
 - `bronze_customers`
 - `bronze_accounts`
 - `bronze_transactions`
 - `bronze_orders`
 
 **Silver Layer** - Cleansed and conformed data
+
 - `silver_customers` - Standardized customer data
 - `silver_transactions` - Validated transactions
 - `silver_orders` - Cleansed orders
 
 **Gold Layer** - Business-ready aggregates
+
 - `gold_customer_summary` - Customer analytics with segmentation
 - `gold_transaction_summary` - Transaction metrics by account
 - `gold_order_metrics` - Order performance metrics
@@ -143,29 +150,34 @@ dbtDataLake/
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone <repository-url>
 cd dbtDataLake
 ```
 
 2. **Create virtual environment**
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
 3. **Install dependencies**
+
 ```bash
 pip install -r requirements.txt
 ```
 
 4. **Configure environment variables**
+
 ```bash
 cp .env.example .env
 # Edit .env with your credentials
 ```
 
 5. **Generate sample data**
+
 ```bash
 make generate-data
 ```
@@ -187,6 +199,7 @@ terraform apply
 ```
 
 This creates:
+
 - S3 bucket with folder structure
 - Glue catalog and crawlers
 - Snowflake warehouse, database, and schemas
@@ -290,6 +303,7 @@ tests/
 ```
 
 **Test Coverage:**
+
 - Data generation functions (finance, operations, CRM)
 - Data quality validation
 - Configuration and constants
@@ -303,6 +317,7 @@ The project includes comprehensive GitHub Actions workflows:
 ### Main CI/CD Pipeline (`.github/workflows/ci_cd.yml`)
 
 **On Pull Request:**
+
 - Lint Python and SQL code
 - Run Python tests
 - Run dbt tests
@@ -310,11 +325,13 @@ The project includes comprehensive GitHub Actions workflows:
 - Terraform plan
 
 **On Push to `develop`:**
+
 - Deploy to development environment
 - Run dbt models
 - Execute tests
 
 **On Push to `main`:**
+
 - Deploy to production environment
 - Run dbt models with full testing
 - Generate and publish dbt docs
@@ -323,6 +340,7 @@ The project includes comprehensive GitHub Actions workflows:
 ### Data Generation Pipeline (`.github/workflows/data_generation.yml`)
 
 **On Schedule (Weekly):**
+
 - Generate fresh sample data
 - Upload to S3
 - Trigger Glue crawlers
@@ -346,18 +364,21 @@ SNOWFLAKE_ROLE
 ### Data Quality Framework
 
 **Bronze Layer Validations:**
+
 - Primary key uniqueness
 - Not null constraints
 - Email format validation
 - Status value checks
 
 **Silver Layer Validations:**
+
 - Age range validation (18-120)
 - Amount non-negative checks
 - Standardized value sets
 - Data type consistency
 
 **Gold Layer Validations:**
+
 - Metric non-negativity
 - Lifecycle stage validation
 - Value tier consistency
@@ -366,6 +387,7 @@ SNOWFLAKE_ROLE
 ### Data Lineage
 
 dbt provides automatic lineage tracking:
+
 - Source to bronze layer
 - Bronze to silver transformations
 - Silver to gold aggregations
@@ -376,29 +398,34 @@ View lineage in dbt docs: `dbt docs serve`
 ## Key Features
 
 ### 1. Data Vault 2.0 Modeling
+
 - Separates business keys (Hubs) from relationships (Links) and attributes (Satellites)
 - Full historical tracking with SCD Type 2
 - Auditability with load dates and record sources
 - Agile schema evolution
 
 ### 2. Medallion Architecture
+
 - **Bronze**: Raw data, minimal transformation
 - **Silver**: Cleansed, conformed, validated
 - **Gold**: Business-ready aggregates and metrics
 
 ### 3. Data Quality at Every Layer
+
 - Automated validation with Great Expectations
 - dbt tests for referential integrity
 - Custom business rule validations
 - SLA monitoring and alerting
 
 ### 4. Infrastructure as Code
+
 - Fully automated provisioning with Terraform
 - Version-controlled infrastructure
 - Reproducible environments
 - Easy disaster recovery
 
 ### 5. CI/CD Automation
+
 - Automated testing on every commit
 - Deployment to dev/prod environments
 - Data quality gates
@@ -407,7 +434,9 @@ View lineage in dbt docs: `dbt docs serve`
 ## Use Cases
 
 ### Customer 360 View
+
 Combine CRM and finance data for comprehensive customer insights:
+
 ```sql
 SELECT * FROM gold_cross_domain_analytics
 WHERE engagement_level = 'HIGHLY_ENGAGED'
@@ -415,7 +444,9 @@ WHERE engagement_level = 'HIGHLY_ENGAGED'
 ```
 
 ### Transaction Analytics
+
 Analyze transaction patterns and account behavior:
+
 ```sql
 SELECT * FROM gold_transaction_summary
 WHERE is_dormant = TRUE
@@ -423,7 +454,9 @@ WHERE is_dormant = TRUE
 ```
 
 ### Order Performance
+
 Track order fulfillment and operational metrics:
+
 ```sql
 SELECT
     order_year,
@@ -466,24 +499,28 @@ ORDER BY order_year DESC, order_month DESC;
 ## Interview Talking Points
 
 ### Technical Depth
+
 - Implemented Data Vault 2.0 with 7 hubs, 6 links, and 7 satellites
 - Built medallion architecture with bronze/silver/gold layers
 - Created 10+ dbt models with comprehensive testing
 - Configured Great Expectations with 20+ validation rules
 
 ### Business Value
+
 - Enables 360-degree customer view across finance and CRM
 - Provides historical tracking for audit and compliance
 - Reduces data quality issues through automated validation
 - Accelerates analytics with pre-aggregated gold layer
 
 ### DevOps & Automation
+
 - Fully automated infrastructure provisioning with Terraform
 - CI/CD pipeline with 8 workflow jobs
 - Automated data quality gates
 - Self-service documentation with dbt docs
 
 ### Scalability & Governance
+
 - Cloud-native architecture scales with data volume
 - Data Vault 2.0 enables agile schema evolution
 - Role-based access control in Snowflake
@@ -519,4 +556,3 @@ For questions or opportunities, please reach out via [your contact method].
 ---
 
 **Built with ❤️ using modern data engineering best practices**
-
