@@ -322,9 +322,11 @@ def generate_crm_data():
             "probability": fake.random_int(min=0, max=100),
             "amount": round(fake.random.uniform(5000, 500000), 2),
             "expected_close_date": fake.date_between(start_date=START_DATE, end_date=END_DATE),
-            "actual_close_date": fake.date_between(start_date=START_DATE, end_date=END_DATE)
-            if fake.boolean(chance_of_getting_true=50)
-            else None,
+            "actual_close_date": (
+                fake.date_between(start_date=START_DATE, end_date=END_DATE)
+                if fake.boolean(chance_of_getting_true=50)
+                else None
+            ),
             "lead_source": fake.random_element(
                 elements=("WEBSITE", "REFERRAL", "COLD_CALL", "TRADE_SHOW", "PARTNER")
             ),
