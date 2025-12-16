@@ -37,7 +37,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install black flake8 isort sqlfluff
+          # Pin tool versions to match requirements.txt so CI doesn't drift (e.g., Black 24.x vs 23.x).
+          pip install black==23.12.1 flake8==7.0.0 isort==5.13.2 sqlfluff==3.0.0
 
       - name: Run Black (Python formatter)
         run: black --check scripts/
@@ -164,7 +165,8 @@ jobs:
         continue-on-error: true
 
       - name: Upload data quality reports
-        uses: actions/upload-artifact@v3
+        # NOTE: v3 is deprecated/blocked by GitHub; v4 is the supported artifact action.
+        uses: actions/upload-artifact@v4
         with:
           name: data-quality-reports
           path: data_quality/great_expectations/uncommitted/data_docs/
@@ -269,7 +271,8 @@ jobs:
         run: cd dbt_project && dbt docs generate
 
       - name: Upload dbt docs
-        uses: actions/upload-artifact@v3
+        # NOTE: v3 is deprecated/blocked by GitHub; v4 is the supported artifact action.
+        uses: actions/upload-artifact@v4
         with:
           name: dbt-docs
           path: dbt_project/target/

@@ -31,7 +31,8 @@ jobs:
         run: python scripts/generate_sample_data.py
 
       - name: Upload sample data artifacts
-        uses: actions/upload-artifact@v3
+        # NOTE: v3 is deprecated/blocked by GitHub; v4 is the supported artifact action.
+        uses: actions/upload-artifact@v4
         with:
           name: sample-data
           path: sample_data/
@@ -51,7 +52,8 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Download sample data
-        uses: actions/download-artifact@v3
+        # NOTE: v3 is deprecated/blocked by GitHub; v4 is the supported artifact action.
+        uses: actions/download-artifact@v4
         with:
           name: sample-data
           path: sample_data/
