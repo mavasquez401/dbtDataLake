@@ -3,7 +3,6 @@ Generate realistic sample datasets for Finance, Operations, and CRM domains.
 This script creates CSV and Parquet files with synthetic data using Faker.
 """
 
-import os
 from datetime import datetime, timedelta
 from pathlib import Path
 
